@@ -1,8 +1,10 @@
+from ast import Delete
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
 from .models import Project, Pledge
-from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer
+from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
 from django.http import Http404
 from rest_framework import status
 
@@ -43,3 +45,24 @@ class ProjectDetail(APIView):
         project = self.get_object(pk)
         serializer = ProjectDetailSerializer(project)
         return Response(serializer.data)
+    
+    def delete(self, request, pk):
+        project = self.get_object(pk)
+        if project:
+            ProjectList.delete()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class PledgeDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Pledge.objects.get(pk=pk)
+        except Pledge.DoesNotExist:raise Http404
+        
+    def get(self, request, pk):
+        pledge = self.get_object(pk)
+        serializer = PledgeDetailSerializer(pledge)
+        return Response(serializer.data)
+ 
+    

@@ -27,3 +27,6 @@ class ProjectSerializer(serializers.Serializer):
 
 class ProjectDetailSerializer(ProjectSerializer):
     pledges = PledgeSerializer(many=True, read_only=True)
+
+class PledgeDetailSerializer(PledgeSerializer):
+    pledge = PledgeSerializer(read_only=True)
