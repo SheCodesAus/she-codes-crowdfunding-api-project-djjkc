@@ -81,5 +81,11 @@ class PledgeDetail(APIView):
         pledge = self.get_object(pk)
         serializer = PledgeDetailSerializer(pledge)
         return Response(serializer.data)
- 
+
+    def delete(self, request, pk):
+        pledge = self.get_object(pk)
+        if pledge:
+            pledge.delete()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     
