@@ -50,4 +50,5 @@ class CustomUserDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
-    
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
