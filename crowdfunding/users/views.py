@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,7 +13,7 @@ class CustomUserList(APIView):
         serializer = CustomUserSerializer(users, many=True)
         return Response(serializer.data)
     
-    # POST request
+    # POST request - create new user
     def post(self, request):
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
@@ -40,7 +39,7 @@ class CustomUserDetail(APIView):
         if user:
             user.delete()
             return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST) 
     
     def put(self, request, pk):
         user = self.get_object(pk)
