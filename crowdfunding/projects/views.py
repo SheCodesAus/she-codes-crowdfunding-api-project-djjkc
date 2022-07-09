@@ -32,6 +32,9 @@ class ProjectList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        #must be logged in
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=request.user)
@@ -63,6 +66,10 @@ class ProjectDetail(APIView):
     
     def put(self, request, pk):
         project = self.get_object(pk)
+        #must be project owner & or superuser
+        #if request.user.is_superuser: &&&&&&
+        if request.user != project.owner:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         data = request.data
         serializer = ProjectDetailSerializer(
             instance=project,data=data,partial=True
