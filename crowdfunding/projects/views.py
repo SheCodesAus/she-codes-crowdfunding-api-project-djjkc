@@ -67,7 +67,7 @@ class ProjectDetail(APIView):
     def put(self, request, pk):
         project = self.get_object(pk)
         #must be project owner & or superuser
-        #if request.user.is_superuser: &&&&&&
+        #TODO if request.user.is_superuser: 
         if request.user != project.owner:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         data = request.data
